@@ -8,6 +8,12 @@ var addTwoPromises = async function(promise1, promise2) {
 };
 
 // so basically we return a new promise with resolve
+// alternatively another approach can be:
+var addTwoPromises2 = async function(promise1, promise2) {
+    const result1 = await promise1
+    const result2 = await promise2
+    return result1 + result2 
+};
 
- addTwoPromises(Promise.resolve(2), Promise.resolve(2))
+ addTwoPromises2(Promise.resolve(2), Promise.resolve(2))
    .then(console.log); // 4
