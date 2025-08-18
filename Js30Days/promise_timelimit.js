@@ -8,7 +8,6 @@ var timeLimit = function(fn, t) {
             })
             .catch((error)=>{reject(error)})
             .finally(()=>{clearTimeout(TID)})
-
         })
    }
 };
