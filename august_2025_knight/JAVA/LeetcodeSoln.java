@@ -1,7 +1,11 @@
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.LinkedHashMap;
 
 public class LeetcodeSoln {
 
@@ -21,7 +25,6 @@ public class LeetcodeSoln {
 
         return nums.length;
     }
-
 
     public static boolean isValid(String s) {
         if(s.length()<=Math.pow(10,4)){
@@ -136,6 +139,160 @@ public class LeetcodeSoln {
         return maxlen;
     }
 
+public static List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums);
+        for (int i = 0; i<nums.length; i++){
+            if(i>0 && nums[i]==nums[i-1]){
+                continue;
+            }
+        int l = i+1;
+        int r = nums.length-1;
+        while (l < r){
+            int sum = nums[i]+nums[l]+nums[r];
+            if(sum == 0){
+                
+                result.add(Arrays.asList(nums[i], nums[l], nums[r]));
+                r-=1;
+                l+=1;
+                
+                while (l<r && nums[l]==nums[l-1]) l++;
+                while (l<r && nums[r]==nums[r+1]) r--;
+            }
+            else if(sum<0){
+                l+=1;
+            }else{
+                r-=1;
+            }
+
+        }
+        }
+        return result;
+    }
+
+    public int threeSumClosest(int[] nums, int target) {
+        int closest = nums[0] + nums[1] + nums[2];
+        Arrays.sort(nums);
+        for(int i=0; i<nums.length; i++){
+            int l = i+1;
+            int r = nums.length-1;
+
+        while(l<r){
+            int sum = nums[i] + nums[l] + nums[r];
+            if(Math.abs(closest - target) > Math.abs(sum - target)){
+                closest = sum;
+            }
+            if(sum == target){
+                return target;
+            }else if(sum < target){
+                l+=1;
+            }else{
+                r-=1;
+            }
+        }   
+
+        }
+        return closest;
+        
+    }
+
+    public int romanToInt(String s) {
+       
+        final Map<String, Integer> mapping = new LinkedHashMap<>();
+
+        mapping.put("M", 1000);
+        mapping.put("CM", 900);
+        mapping.put("D", 500);
+        mapping.put("CD", 400);
+        mapping.put("C", 100);
+        mapping.put("XC", 90);
+        mapping.put("L", 50);
+        mapping.put("XL", 40);
+        mapping.put("X", 10);
+        mapping.put("IX", 9);
+        mapping.put("V", 5);
+        mapping.put("IV", 4);
+        mapping.put("I", 1);
+        // int res = mapping.get(s[0]);
+        int res = 0;
+        for(int i = 0; i < s.length(); i++){
+            if (s.length() == 1){
+                return mapping.get(String.valueOf(s.charAt(i)));
+                }
+            if(i+1 < s.length() && mapping.get(String.valueOf(s.charAt(i)))<mapping.get(String.valueOf(s.charAt(i+1)))){
+                // subtract
+                res -= mapping.get(String.valueOf(s.charAt(i))); 
+                // - mapping.get(String.valueOf(s.charAt(i-1)));
+            }else{
+                // add
+                res += mapping.get(String.valueOf(s.charAt(i))) ;
+                // + mapping.get(String.valueOf(s.charAt(i-1)));
+            }
+        }
+        return res;
+    
+    }
+
+    public static String intToRoman(int num) {
+        // hashtable | int to roman leetcode
+        final Map<String, Integer> mapping = new LinkedHashMap<>();
+        
+        mapping.put("M", 1000);
+        mapping.put("CM", 900);
+        mapping.put("D", 500);
+        mapping.put("CD", 400);
+        mapping.put("C", 100);
+        mapping.put("XC", 90);
+        mapping.put("L", 50);
+        mapping.put("XL", 40);
+        mapping.put("X", 10);
+        mapping.put("IX", 9);
+        mapping.put("V", 5);
+        mapping.put("IV", 4);
+        mapping.put("I", 1);
+
+        StringBuilder sb = new StringBuilder();
+        for(String key : mapping.keySet() ){
+            if(num == 0 ) 
+            break;
+            while (num >= mapping.get(key)){
+                sb.append(key);
+                num -= mapping.get(key);
+            }
+        }
+        return sb.toString();
+    }
+    public List<String> letterCombinations(String digits) {
+        List<String> res = new ArrayList<>();
+        Map<Character, String> map = new LinkedHashMap<>();
+        map.put('2', "abc");
+        map.put('3', "def");
+        map.put('4', "ghi");
+        map.put('5', "jkl");
+        map.put('6', "mno");
+        map.put('7', "pqrs");
+        map.put('8', "tuv");
+        map.put('9', "wxyz");
+
+        class Bt {
+        public void backtrack(int i, StringBuilder curstr){
+            if(i == digits.length()){
+                res.add(curstr.toString());
+                return;
+            }
+
+            for (int c = 0; c < map.get(digits.charAt(i)).length(); c++){
+                curstr.append(map.get(digits.charAt(i)).charAt(c));
+                backtrack(i + 1, curstr); 
+                curstr.deleteCharAt(curstr.length() - 1);
+                }
+        }
+        }
+        StringBuilder sb = new StringBuilder();
+        if(digits.length()>=1) new Bt().backtrack(0,sb);
+        return res;
+    }
+
     public static void testDemo() {
         // IGNORE : ONLY FOR DEMO
         int[] hasharr = new int[256];
@@ -169,8 +326,12 @@ public class LeetcodeSoln {
         // testDemo();
 
         // remove duplicates
-        int[] nums = {1,1,2};
-        int lengthRD = removeDuplicates(nums);
-        System.out.println("length of expectedNums: "+lengthRD);
+        // int[] nums = {1,1,2};
+        // int lengthRD = removeDuplicates(nums);
+        // System.out.println("length of expectedNums: "+lengthRD);
+
+
+        System.out.println(intToRoman(2));
+
     }
 }
